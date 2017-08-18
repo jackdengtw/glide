@@ -114,6 +114,7 @@ func main() {
 	// Detect errors from the Before and After calls and exit on them.
 	if err := app.Run(os.Args); err != nil {
 		msg.Err(err.Error())
+		cache.SystemUnlock()
 		os.Exit(1)
 	}
 
@@ -121,6 +122,7 @@ func main() {
 	if msg.HasErrored() {
 		m := msg.Color(msg.Red, "An Error has occurred")
 		msg.Msg(m)
+		cache.SystemUnlock()
 		os.Exit(2)
 	}
 }
