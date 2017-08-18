@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"syscall"
 	"time"
 
 	"github.com/sunchunming/glide/msg"
@@ -94,7 +95,7 @@ func startLock() error {
 
 	// Capture ctrl-c or other interruptions then clean up the global lock.
 	ch := make(chan os.Signal)
-	signal.Notify(ch, os.Interrupt, os.Kill)
+	signal.Notify(ch, os.Interrupt, os.Kill, syscall.SIGTERM)
 	go func(cc <-chan os.Signal) {
 		s := <-cc
 		shouldWriteLock = false
